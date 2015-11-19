@@ -12,7 +12,7 @@ public class RomanCalculator {
         String romanNumeral;
         System.out.println("Introdu un numar roman");
         romanNumeral = scan.next();
-        numeral = RomanConvertor.RomanToInt(romanNumeral);
+        numeral = RomanConvertor.convertRomanNumeral(romanNumeral);
         System.out.println("Numarul introdus este:"+numeral);
     }
 }
