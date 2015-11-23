@@ -8,7 +8,7 @@ import static romancalculator.RomanConvertor.convertRomanNumeral;
  *
  * @author DumitruDaniel
  */
-public class ExpressionInterpreator {
+public class ExpressionInterpretor {
 
     public static void splitExpression(String expression) {// ((X + VII * V) *III + ((I + II )+ III))
         expression = expression.replaceAll(" ", "");
@@ -29,7 +29,7 @@ public class ExpressionInterpreator {
                 return right ? expression.length() : 0;
             }
             if (DELIMITERS.contains("" + expression.charAt(opIndex))) {
-                return right ? opIndex - 1 : opIndex + 1;
+                return right ? opIndex : opIndex + 1;
             }
             opIndex = right ? opIndex + 1 : opIndex - 1;
         }
@@ -41,7 +41,8 @@ public class ExpressionInterpreator {
         while (m.find()) {
             String gradeIIOperation = expression.substring(take(expression, m.start(), false), take(expression, m.start(), true));
             String opResult = calculateGradeIIOperation(gradeIIOperation);
-            expression = expression.replace(gradeIIOperation, opResult);
+            expression = expression.substring(0,take(expression, m.start(), false))+ opResult + expression.substring(take(expression, m.start(), true)) ;
+            m = p.matcher(expression);
         }
         System.out.println(expression);
 
@@ -50,7 +51,8 @@ public class ExpressionInterpreator {
         while (m.find()) {
             String gradeIOperation = expression.substring(take(expression, m.start(), false), take(expression, m.start(), true));
             String opResult = calculateGradeIOperation(gradeIOperation);
-            expression = expression.replace(gradeIOperation, opResult);
+            expression = expression.substring(0,take(expression, m.start(), false))+ opResult + expression.substring(take(expression, m.start(), true)) ;
+            m = p.matcher(expression);
         }
         System.out.println(expression);
     }
@@ -81,7 +83,7 @@ public class ExpressionInterpreator {
 
     private static String convertExpression(String expression) { //X + VII * V
         for (String s : expression.split("\\+|\\*|-|\\/")) {
-            expression = expression.replace(s.trim(), "" + convertRomanNumeral(s.trim()));
+            expression = expression.replaceFirst(s.trim(), "" + convertRomanNumeral(s.trim()));//I+
         }
         return expression;
     }

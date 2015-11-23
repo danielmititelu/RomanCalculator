@@ -42,10 +42,10 @@ public class RomanConvertor {
                 return false;
             }
 
-            if(getInteger(digit) > getInteger(numeralDigits[0]) && getInteger(numeralDigits[0])%5 == 0 ){
-                System.out.println("Invalid numeral, incorect order of symbols.");
-                return false;
-            }
+//            if(getInteger(digit) > getInteger(numeralDigits[0])){
+//                System.out.println("Invalid numeral, incorect order of symbols.");
+//                return false;
+//            }
             
             if (sameDigitCount >= 2 && getInteger(oldDigit) < getInteger(digit)) {
                 System.out.println("Invalid numeral, contains more than 2 '" + oldDigit + "' before '" + digit + "' symbols.");

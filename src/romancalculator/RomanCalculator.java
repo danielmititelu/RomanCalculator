@@ -1,7 +1,7 @@
 package romancalculator;
 
 import java.util.Scanner;
-import static romancalculator.ExpressionInterpreator.splitExpression;
+import static romancalculator.ExpressionInterpretor.splitExpression;
 
 /**
  *
