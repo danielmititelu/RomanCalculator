@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package romancalculator;
 
 import java.util.HashMap;
@@ -46,11 +41,12 @@ public class RomanConvertor {
                 System.out.println("Invalid numeral, unknown '" + digit + "' symbol.");
                 return false;
             }
-            if(getInteger(digit) > getInteger(numeralDigits[0])){
+
+            if(getInteger(digit) > getInteger(numeralDigits[0]) && getInteger(numeralDigits[0])%5 == 0 ){
                 System.out.println("Invalid numeral, incorect order of symbols.");
                 return false;
             }
-
+            
             if (sameDigitCount >= 2 && getInteger(oldDigit) < getInteger(digit)) {
                 System.out.println("Invalid numeral, contains more than 2 '" + oldDigit + "' before '" + digit + "' symbols.");
                 return false;
@@ -61,7 +57,6 @@ public class RomanConvertor {
                 System.out.println("Invalid numeral, contains more than 3 '" + digit + "' symbols.");
                 return false;
             }
-
             oldDigit = digit;
         }
         return true;
@@ -87,39 +82,4 @@ public class RomanConvertor {
         }
         return result;
     }
-
-    public static boolean checkRoman(String romanNumeral) {
-        String[] elements = romanNumeral.split("");
-        int counter = 0; // XIIII
-        int current = 0;
-        int next = 0;
-        int max = getInteger(elements[0]);//IXV
-
-        for (int i = 0; i < elements.length; i++) {
-            current = getInteger(elements[i]);
-            if (current > max) {
-                return false;
-            }
-
-            if (i + 1 < elements.length) {
-                next = getInteger(elements[i + 1]);
-            }
-
-            if (current == next) {
-                counter += 1;
-            } else {
-                counter = 0;
-            }
-
-            if (counter == 1 && current < next) {//XIIV
-                return false;
-            }
-
-            if (counter == 4) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }
