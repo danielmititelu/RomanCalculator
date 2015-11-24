@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
  */
 public class ExpressionInterpretor {
 
-    public static void splitExpression(String expression) {// ((X + VII * V) *III + ((I + II )+ III))
+    public static String splitExpression(String expression) {
         expression = expression.replaceAll(" ", "");
         Pattern p = Pattern.compile("((?<=\\()[^\\(\\)]+?(?=\\)))");
         Matcher m = p.matcher(expression);
@@ -17,9 +17,11 @@ public class ExpressionInterpretor {
             String convertedExpression = convertExpression(m.group());
             String expressionResult = calculateExpression(convertedExpression);
             String convertedResult = RomanConvertor.convertIntToRoman(Integer.parseInt(expressionResult));
-            expression = expression.replaceFirst(Pattern.quote("("+m.group()+")"), Matcher.quoteReplacement(convertedResult));
+            expression = expression.replaceFirst(Pattern.quote("(" + m.group() + ")"), Matcher.quoteReplacement(convertedResult));
             m = p.matcher(expression);
+            System.out.println(expression);
         }
+        return expression;
     }
 
     private static int take(String expression, int opIndex, boolean right) {
@@ -43,7 +45,7 @@ public class ExpressionInterpretor {
         while (m.find()) {
             String gradeIIOperation = expression.substring(take(expression, m.start(), false), take(expression, m.start(), true));
             String opResult = calculateGradeIIOperation(gradeIIOperation);
-            expression = expression.substring(0,take(expression, m.start(), false))+ opResult + expression.substring(take(expression, m.start(), true)) ;
+            expression = expression.substring(0, take(expression, m.start(), false)) + opResult + expression.substring(take(expression, m.start(), true));
             m = p.matcher(expression);
         }
 
@@ -52,10 +54,9 @@ public class ExpressionInterpretor {
         while (m.find()) {
             String gradeIOperation = expression.substring(take(expression, m.start(), false), take(expression, m.start(), true));
             String opResult = calculateGradeIOperation(gradeIOperation);
-            expression = expression.substring(0,take(expression, m.start(), false))+ opResult + expression.substring(take(expression, m.start(), true)) ;
+            expression = expression.substring(0, take(expression, m.start(), false)) + opResult + expression.substring(take(expression, m.start(), true));
             m = p.matcher(expression);
         }
-          System.out.println(expression);
         return expression;
     }
 
@@ -83,7 +84,7 @@ public class ExpressionInterpretor {
         return "" + result;
     }
 
-    private static String convertExpression(String expression) { //X + VII * V
+    private static String convertExpression(String expression) {
         for (String s : expression.split("\\+|\\*|-|\\/")) {
             expression = expression.replaceFirst(s.trim(), "" + RomanConvertor.convertRomanToInt(s.trim()));
         }
