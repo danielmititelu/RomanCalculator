@@ -17,6 +17,7 @@ public class RomanCalculator {
         romanNumeral = scan.nextLine();
         //numeral = RomanConvertor.convertRomanNumeral(romanNumeral);
         //System.out.println("Numarul introdus este:"+numeral);
-        splitExpression(romanNumeral);
+        splitExpression("("+romanNumeral+")");
+        //System.out.println("Numarul introdus este:"+getRomanNumeral(Integer.parseInt(romanNumeral)));
     }
 }

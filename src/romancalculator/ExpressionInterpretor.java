@@ -2,7 +2,6 @@ package romancalculator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static romancalculator.RomanConvertor.convertRomanNumeral;
 
 /**
  *
@@ -12,11 +11,14 @@ public class ExpressionInterpretor {
 
     public static void splitExpression(String expression) {// ((X + VII * V) *III + ((I + II )+ III))
         expression = expression.replaceAll(" ", "");
-        Pattern p = Pattern.compile("((?<=\\()[^\\(].+?(?=\\)))");
+        Pattern p = Pattern.compile("((?<=\\()[^\\(\\)]+?(?=\\)))");
         Matcher m = p.matcher(expression);
         while (m.find()) {
-            String cinverterExpression = convertExpression(m.group());
-            calculateExpression(cinverterExpression);
+            String convertedExpression = convertExpression(m.group());
+            String expressionResult = calculateExpression(convertedExpression);
+            String convertedResult = RomanConvertor.convertIntToRoman(Integer.parseInt(expressionResult));
+            expression = expression.replaceFirst(Pattern.quote("("+m.group()+")"), Matcher.quoteReplacement(convertedResult));
+            m = p.matcher(expression);
         }
     }
 
@@ -35,7 +37,7 @@ public class ExpressionInterpretor {
         }
     }
 
-    private static void calculateExpression(String expression) {//10+70*500
+    private static String calculateExpression(String expression) {//10+70*500
         Pattern p = Pattern.compile("\\*|\\/");
         Matcher m = p.matcher(expression);
         while (m.find()) {
@@ -44,7 +46,6 @@ public class ExpressionInterpretor {
             expression = expression.substring(0,take(expression, m.start(), false))+ opResult + expression.substring(take(expression, m.start(), true)) ;
             m = p.matcher(expression);
         }
-        System.out.println(expression);
 
         p = Pattern.compile("\\+|\\-");
         m = p.matcher(expression);
@@ -54,7 +55,8 @@ public class ExpressionInterpretor {
             expression = expression.substring(0,take(expression, m.start(), false))+ opResult + expression.substring(take(expression, m.start(), true)) ;
             m = p.matcher(expression);
         }
-        System.out.println(expression);
+          System.out.println(expression);
+        return expression;
     }
 
     private static String calculateGradeIIOperation(String operation) {// 7*5
@@ -83,7 +85,7 @@ public class ExpressionInterpretor {
 
     private static String convertExpression(String expression) { //X + VII * V
         for (String s : expression.split("\\+|\\*|-|\\/")) {
-            expression = expression.replaceFirst(s.trim(), "" + convertRomanNumeral(s.trim()));//I+
+            expression = expression.replaceFirst(s.trim(), "" + RomanConvertor.convertRomanToInt(s.trim()));
         }
         return expression;
     }

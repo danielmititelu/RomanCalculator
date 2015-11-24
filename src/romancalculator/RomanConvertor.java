@@ -19,8 +19,21 @@ public class RomanConvertor {
             put("M", 1000);
         }
     };
-
-    public static int convertRomanNumeral(String romanNumeral) {
+    
+    private static final HashMap<Integer, String> ARABIC_LIST = new HashMap() {
+        {
+            put(1, "I");
+            put(5, "V");
+            put(10,"X");
+            put(50,"L");
+            put(100,"C");
+            put(500,"D");
+            put(1000,"M");
+            
+        }
+    };
+    
+    public static int convertRomanToInt(String romanNumeral) {
         String upperCaseRomanNumeral = romanNumeral.toUpperCase();
         if (!isValidRomanNumeral(upperCaseRomanNumeral)) {
             return 0;
@@ -81,5 +94,35 @@ public class RomanConvertor {
             }
         }
         return result;
+    }
+    
+    public static String convertIntToRoman(int number){
+        String numberString = ""+number;
+        int contor=numberString.length()-1;
+        String result = "";
+        for(String s:numberString.split("")){
+            String snumber = s+new String(new char[contor]).replace("\0", "0");
+            result += toRoman(Integer.parseInt(snumber));
+            contor--;
+        }
+        return result;
+    }
+    
+    private static String toRoman(int number) {
+        for(int i=1;i<10;i++){
+            if(number% i == 0 && ROMAN_LIST.containsValue(number/i) && i == 9 ){
+                return ARABIC_LIST.get((number/i))+ARABIC_LIST.get(number/i*10);
+            }else if(number% i == 0 && ROMAN_LIST.containsValue(number/i) && i == 4){
+                return ARABIC_LIST.get((number/i))+ARABIC_LIST.get(number/i*5);
+            }else if(number% i == 0 && ROMAN_LIST.containsValue(number/i) ){  
+                String s = i<4 ? "":ARABIC_LIST.get(number/i*5);
+                int m = i <4 ? i:i-5;
+                for(int j =1;j<=m;j++){
+                    s+=ARABIC_LIST.get((number/i));
+                }
+                return s;
+            }
+        }
+        return "";
     }
 }
