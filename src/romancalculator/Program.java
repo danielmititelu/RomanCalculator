@@ -14,6 +14,6 @@ public class Program {
         System.out.println("Introdu un numar roman");
         expression = scan.nextLine();
         String result = RomanCalculator.calculate(expression);
-        System.out.println(result);
+        System.out.println("Rezultatul este :"+result);
     }
 }

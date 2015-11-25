@@ -78,7 +78,7 @@ public class NumeralConverter {
 
     private static String toRoman(int number) {
         for (int i = 1; i < 10; i++) {
-            if (number % i == 0 && !Numerals.contains(number / i) && i == 9) {
+            if (number % i == 0 && Numerals.contains(number / i) && i == 9) {
                 return Numerals.getRoman((number / i)) + Numerals.getRoman(number / i * 10);
             } else if (number % i == 0 && Numerals.contains(number / i) && i == 4) {
                 return Numerals.getRoman((number / i)) + Numerals.getRoman(number / i * 5);

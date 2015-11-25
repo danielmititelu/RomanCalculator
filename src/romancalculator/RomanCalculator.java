@@ -11,6 +11,10 @@ public class RomanCalculator {
     static String DELIMITERS = "(+-*/)";
         
     public static String calculate(String expression) { 
+        long a = expression.chars().filter(chr -> chr == '{').count();
+        if(expression.chars().filter(chr -> chr == '(').count()  != expression.chars().filter(chr -> chr == ')').count() ){
+            return "You are missing some parentheses";
+        }
         expression = "(" + expression + ")";
         expression = expression.replaceAll(" ", "");
         Pattern p = Pattern.compile("((?<=\\()[^\\(\\)]+?(?=\\)))");
@@ -39,9 +43,18 @@ public class RomanCalculator {
         }
     }
 
-    private static String calculateExpression(String expression) { // TODO: TRY TO IMPROVE AND REMOVE THE CODE DUPLICATION AND ADD GR III OP
-        Pattern p = Pattern.compile("\\*|\\/");
+    private static String calculateExpression(String expression) { 
+        Pattern p = Pattern.compile("\\^");
         Matcher m = p.matcher(expression);
+        while (m.find()) {
+            String gradeIIIOperation = expression.substring(getLimit(expression, m.start(), false), getLimit(expression, m.start(), true));
+            String opResult = calculateOperation(gradeIIIOperation);
+            expression = expression.substring(0, getLimit(expression, m.start(), false)) + opResult + expression.substring(getLimit(expression, m.start(), true));
+            m = p.matcher(expression);
+        }
+        
+        p = Pattern.compile("\\*|\\/");
+        m = p.matcher(expression);
         while (m.find()) {
             String gradeIIOperation = expression.substring(getLimit(expression, m.start(), false), getLimit(expression, m.start(), true));
             String opResult = calculateOperation(gradeIIOperation);
@@ -73,14 +86,17 @@ public class RomanCalculator {
         } else if (expression.contains("-")){
             String[] numbers = expression.split("\\-");
             return "" + (Integer.parseInt(numbers[0]) - Integer.parseInt(numbers[1]));
-        } else {
+        } else if (expression.contains("^")){
+            String[] numbers = expression.split("\\^");
+            return "" + (int)Math.pow(Integer.parseInt(numbers[0]) , Integer.parseInt(numbers[1]));
+        }else {
             System.out.println("No operator found in expression: " + expression);
             return "";
         }
     }
 
     private static String convertExpressionToInt(String expression) {
-        for (String s : expression.split("\\+|\\*|-|\\/")) {
+        for (String s : expression.split("\\+|\\*|-|\\/|\\^")) {
             expression = expression.replaceFirst(s.trim(), "" + NumeralConverter.convertRomanToInt(s.trim()));
         }
         return expression;
