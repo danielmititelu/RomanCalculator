@@ -4,10 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/DumitruDaniel/Documents/NetBeansProjects/RomanCalculator/src/romancalculator/RomanCalculator.java</file>
+            <file>file:/C:/Users/DumitruDaniel/Documents/NetBeansProjects/RomanCalculator/test/NewEmptyJUnitTest.java</file>
             <file>file:/C:/Users/DumitruDaniel/Documents/NetBeansProjects/RomanCalculator/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/DumitruDaniel/Documents/NetBeansProjects/RomanCalculator/test/RomanCalculatorJUnitTest.java</file>
             <file>file:/C:/Users/DumitruDaniel/Documents/NetBeansProjects/RomanCalculator/src/romancalculator/Numerals.java</file>
             <file>file:/C:/Users/DumitruDaniel/Documents/NetBeansProjects/RomanCalculator/src/romancalculator/Program.java</file>
             <file>file:/C:/Users/DumitruDaniel/Documents/NetBeansProjects/RomanCalculator/src/romancalculator/NumeralConverter.java</file>
+            <file>file:/C:/Users/DumitruDaniel/Documents/NetBeansProjects/RomanCalculator/test/NumeralConverterJUnitTest.java</file>
         </group>
     </open-files>
 </project-private>

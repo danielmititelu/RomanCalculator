@@ -8,10 +8,9 @@ import java.util.regex.Pattern;
  * @author DumitruDaniel
  */
 public class RomanCalculator {
-    static String DELIMITERS = "(+-*/)";
+    static String DELIMITERS = "(+-*/^)";
         
     public static String calculate(String expression) { 
-        long a = expression.chars().filter(chr -> chr == '{').count();
         if(expression.chars().filter(chr -> chr == '(').count()  != expression.chars().filter(chr -> chr == ')').count() ){
             return "You are missing some parentheses";
         }
@@ -22,6 +21,7 @@ public class RomanCalculator {
         while (m.find()) {
             String convertedExpression = convertExpressionToInt(m.group());
             String expressionResult = calculateExpression(convertedExpression);
+            if(Integer.parseInt(expressionResult) < 0){ System.out.println("Negative values cannot be represented in roman numerals"); break;}
             String convertedResult = NumeralConverter.convertIntToRoman(Integer.parseInt(expressionResult));
             expression = expression.replaceFirst(Pattern.quote("(" + m.group() + ")"), Matcher.quoteReplacement(convertedResult));
             m = p.matcher(expression);
@@ -58,6 +58,7 @@ public class RomanCalculator {
         while (m.find()) {
             String gradeIIOperation = expression.substring(getLimit(expression, m.start(), false), getLimit(expression, m.start(), true));
             String opResult = calculateOperation(gradeIIOperation);
+            if(Integer.parseInt(opResult) < 0){ return opResult;}
             expression = expression.substring(0, getLimit(expression, m.start(), false)) + opResult + expression.substring(getLimit(expression, m.start(), true));
             m = p.matcher(expression);
         }
@@ -67,6 +68,7 @@ public class RomanCalculator {
         while (m.find()) {
             String gradeIOperation = expression.substring(getLimit(expression, m.start(), false), getLimit(expression, m.start(), true));
             String opResult = calculateOperation(gradeIOperation);
+            if(Integer.parseInt(opResult) < 0){ return opResult;}
             expression = expression.substring(0, getLimit(expression, m.start(), false)) + opResult + expression.substring(getLimit(expression, m.start(), true));
             m = p.matcher(expression);
         }

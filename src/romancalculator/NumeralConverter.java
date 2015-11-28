@@ -1,9 +1,11 @@
 package romancalculator;
+
 /**
  *
  * @author DumitruDaniel
  */
 public class NumeralConverter {
+
     public static int convertRomanToInt(String romanNumeral) {
         String upperCaseRomanNumeral = romanNumeral.toUpperCase();
         if (!isValidRomanNumeral(upperCaseRomanNumeral)) {
@@ -13,34 +15,12 @@ public class NumeralConverter {
     }
 
     private static boolean isValidRomanNumeral(String romanNumeral) {
-        String[] numeralDigits = romanNumeral.split("");
-        int sameDigitCount = 1;
-        String oldDigit = "";
-        for (String digit : numeralDigits) {
-            if (!Numerals.contains(digit)) {
-                System.out.println(romanNumeral + ":Invalid numeral, unknown '" + digit + "' symbol.");
-                return false;
-            }
-
-            int max = romanNumeral.length() == 1 ? 0 : 1;
-            if (Numerals.getInteger(digit) > Integer.max(Numerals.getInteger(numeralDigits[0]), Numerals.getInteger(numeralDigits[max]))) {
-                System.out.println(romanNumeral + ":Invalid numeral, incorect order of symbols.");
-                return false;
-            }
-
-            if (sameDigitCount >= 2 && Numerals.getInteger(oldDigit) < Numerals.getInteger(digit)) {
-                System.out.println(romanNumeral + ":Invalid numeral, contains more than 2 '" + oldDigit + "' before '" + digit + "' symbols.");
-                return false;
-            }
-
-            sameDigitCount = oldDigit.equals(digit) ? sameDigitCount + 1 : 1;
-            if (sameDigitCount == 4) {
-                System.out.println(romanNumeral + ":Invalid numeral, contains more than 3 '" + digit + "' symbols.");
-                return false;
-            }
-            oldDigit = digit;
+        if (romanNumeral.matches("^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$")) {
+            return true;
+        }else{
+            System.out.println(romanNumeral + ":Invalid roman numeral.");
+            return false;
         }
-        return true;
     }
 
     private static int getArabicNumber(String romanNumeral) {
